@@ -31,7 +31,7 @@ namespace HelloWorld.Controllers
 
     public class HomePageViewModel
     {
-        public IEnumerable<Player> Players { get; set; }
+        public IEnumerable<PlayerInfo> Players { get; set; }
     }
 
     public class SqlPlayerData
@@ -43,20 +43,25 @@ namespace HelloWorld.Controllers
             Context = context;
         }
 
-        public void Add(Player player)
+        public void Add(BasketballPlayer player)
         {
             Context.Add(player);
             Context.SaveChanges();
         }
 
-        public Player Get(int id)
+        public BasketballPlayer Get(int id)
         {
-            return Context.Player.FirstOrDefault(e => e.Id == id);
+            return Context.BasketballPlayer.FirstOrDefault(e => e.Id == id);
         }
 
-        public IEnumerable<Player> GetAll()
+        public IEnumerable<PlayerInfo> GetAll()
         {
-            return Context.Player.ToList();
+            return Context.BasketballPlayer.Join(Context.BasketballTeam, player => player.TeamId, team => team.Id,
+                (player, team) => new PlayerInfo
+                {
+                    Name = player.Name,
+                    TeamName = team.Name
+                });
         }
     }
 }

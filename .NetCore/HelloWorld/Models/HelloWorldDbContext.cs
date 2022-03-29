@@ -13,6 +13,8 @@ namespace HelloWorld.Models
         {
         }
 
-        public DbSet<Player> Player { get; set; }
+        public DbSet<BasketballPlayer> BasketballPlayer { get; set; }
+
+        public DbSet<BasketballTeam> BasketballTeam { get; set; }
     }
 }
